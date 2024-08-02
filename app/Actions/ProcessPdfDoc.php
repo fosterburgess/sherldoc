@@ -1,19 +1,18 @@
 <?php
+
 namespace App\Actions;
 
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Log;
 
 class ProcessPdfDoc
 {
 
-    public function __invoke($pathToPdf): array
+    public function __invoke($pathToPdf, $negativeKeywords = [], $positiveKeywords = []): array
     {
-        $pageText = (new GetPdfTextInPages)->__invoke($pathToPdf);
-//        list($negative, $positive) = (new ScanPdfDoc())->__invoke($pageText);
-        $out = (new LLMPdfDoc())->__invoke(join("\n", $pageText));
-        dd($out);
+        $pageText = (new GetPdfTextInPages)($pathToPdf);
+        $output= (new ScanPdfDoc)($pageText, $negativeKeywords, $positiveKeywords);
 
-        return ['negative' => $negative, 'positive' => $positive];
+        return $output;
     }
 
 

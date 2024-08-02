@@ -1,18 +1,15 @@
 <?php
 namespace App\Actions;
 
-use Symfony\Component\Process\Process;
-
 class ScanPdfDoc
 {
 
-    public function __invoke($pageText): array
+    public function __invoke($pageText, $negativeKeywords = [], $positiveKeywords = []): array
     {
-        $negativeKeywords = ['license','sale','lease','company', 'transfer', 'perpetuity'];
-        $positiveKeywords = ['research', 'santa'];
-        $negativePages = (new CheckForNegativeKeywords)->__invoke($pageText, $negativeKeywords);
-        $positivePages = (new CheckForPositiveKeywords)->__invoke($pageText, $positiveKeywords);
-        return ['negative' => $negativePages, 'positive' => $positivePages];
+        $foundKeywords = (new CheckForNegativeKeywords)->__invoke($pageText, $negativeKeywords);
+        $missingKeywords = (new CheckForMissingKeywords)->__invoke($pageText, $positiveKeywords);
+
+        return ['found' => $foundKeywords, 'missing' => $missingKeywords];
     }
 
 
