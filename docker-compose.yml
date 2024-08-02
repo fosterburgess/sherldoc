@@ -1,0 +1,60 @@
+services:
+    nginx:
+        image: nginx:stable-bullseye
+        ports:
+            - "8088:80"
+        tty: true
+        volumes:
+            - ./:/app
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./nginx-logs:/var/log/nginx
+        networks:
+            - app-network
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+    app:
+        image: sherldoc/web:1.0
+        ports:
+            - "5173:5173"
+        build:
+            context: ./docker/app/php
+            dockerfile: php.dockerfile
+        tty: true
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./docker/app/php/99-local.ini:/usr/local/etc/php/conf.d/99-local.ini
+        networks:
+            - app-network
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+    redis:
+        image: redis:6
+        volumes:
+            - 'data.redis:/data'
+        networks:
+            - app-network
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+    supervisor:
+        image: sherldoc/supervisor:1.0
+        build:
+            context: ./docker/supervisor/
+            dockerfile: supervisord.dockerfile
+        tty: true
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./docker/supervisor:/etc/supervisor
+        networks:
+            - app-network
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+volumes:
+    data.redis:
+        driver: local
+networks:
+    app-network:
+        driver: bridge
