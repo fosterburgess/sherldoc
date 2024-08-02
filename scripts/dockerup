@@ -1,0 +1,10 @@
+#!/bin/bash
+docker compose -f docker-compose.yml up -d;
+time docker compose exec app composer install;
+time docker compose exec supervisor composer install;
+time docker compose exec app php artisan migrate --force;
+time docker compose exec app php artisan route:cache;
+time docker compose exec app php artisan config:cache;
+docker compose exec app npm install;
+docker compose exec app npm run dev;
+
