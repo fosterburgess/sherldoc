@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\GeneralController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return
-        '<pre>' . file_get_contents('/app/README.md') . '</pre>';
-});
+Route::get('/', [GeneralController::class, 'index'])->name('home');
+Route::post('/scan', [GeneralController::class, 'scan'])->name('scan');
