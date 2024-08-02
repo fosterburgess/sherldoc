@@ -19,7 +19,8 @@ RUN \
 
 # Get latest Composer
 COPY --from=composer:2.6.6 /usr/bin/composer /usr/bin/composer
-RUN composer config -g github-oauth.github.com $GITHUB_OAUTH
+# if needing to pass in github oauth
+#RUN composer config -g github-oauth.github.com $GITHUB_OAUTH
 
 
 RUN pecl install xdebug \
