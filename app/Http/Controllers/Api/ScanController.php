@@ -13,6 +13,7 @@ class ScanController extends Controller
     {
         $data = $request->get('keywords');
         $data = json_decode($data, true);
+        $prompt = $request->get('prompt', '');
 
         $random = rand(0, 9999) . "-" . microtime(true) . ".pdf";
         $file = $request->file('file');
@@ -21,7 +22,8 @@ class ScanController extends Controller
         $action = app(ProcessPdfDoc::class);
         $output = $action(storage_path('app/') . $random,
             $data['ensure_missing'] ?? [],
-            $data['ensure_existing'] ?? []);
+            $data['ensure_existing'] ?? [],
+            $prompt);
 
         @unlink(storage_path('app/') . $random);
 
