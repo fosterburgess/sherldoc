@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 
 class MainPanelProvider extends PanelProvider
 {
@@ -49,6 +50,13 @@ class MainPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->plugins([
+                BreezyCore::make()
+                ->myProfile()
+                    ->enableSanctumTokens(
+                        permissions: ['document-scan'] // optional, customize the permissions (default = ["create", "view", "update", "delete"])
+                    )
             ])
             ->authMiddleware([
                 Authenticate::class,
