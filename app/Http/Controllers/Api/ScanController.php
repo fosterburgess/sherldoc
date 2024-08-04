@@ -11,9 +11,10 @@ class ScanController extends Controller
 {
     public function scan(Request $request): JsonResponse
     {
-        $data = $request->get('keywords');
+        $data = $request->get('checks');
+
         $data = json_decode($data, true);
-        $prompt = $request->get('prompt', '');
+        $prompt = $request->get('prompt', null);
 
         $random = rand(0, 9999) . "-" . microtime(true) . ".pdf";
         $file = $request->file('file');
@@ -24,6 +25,10 @@ class ScanController extends Controller
             $data['ensure_missing'] ?? [],
             $data['ensure_existing'] ?? [],
             $prompt);
+
+        if($output['llmResponse']===null) {
+            unset($output['llmResponse']);
+        }
 
         @unlink(storage_path('app/') . $random);
 
