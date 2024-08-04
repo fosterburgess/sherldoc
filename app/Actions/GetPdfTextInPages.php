@@ -23,7 +23,6 @@ class GetPdfTextInPages
         $java = config('pdfbox.java_path');
         $pdfbox = config('pdfbox.pdfbox_jar_path');
         $process = new Process([$java, '-jar', $pdfbox, 'export:text', '-i', $pathToPdf, '-startPage='.$page,'-endPage='.$page, '-console']);
-        Log::info($process->getCommandLine());
         $process->run();
         $output = $process->getOutput();
         $strip = 'The encoding parameter is ignored when writing to the console.';
