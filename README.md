@@ -24,24 +24,13 @@ if .env is missing, copy .env.example to .env
 app expects to use embedded sqlite, nothing more. 
 
 ## example
-```
-POST http://localhost:8088/api/scan
-Accept: application/json
-Content-Type: multipart/form-data; boundary=----------------------ABCDEF
-
-------------------------ABCDEF
-Content-Disposition: form-data; name="keywords"
-Content-Type: application/json
-
-{
-"ensure_missing": ["perpetuity", "expressly", "without warranty", "prohibited"],
-"ensure_existing": ["idaho", "warranty"]
-}
-------------------------ABCDEF
-Content-Disposition: form-data; name="file"; filename="file"
-Content-Type: application/octet-stream
-
-< ./resources/sample1.pdf
+```bash
+curl -X POST -F file=@resources/sample1.pdf \
+-F 'checks={"ensure_missing":
+["perpetuity","prohibited", "free software"],
+"ensure_existing":
+["GNU", "license", "free software", "idaho"]}
+' http://localhost:8088/api/scan 
 ```
 
 ## limits
