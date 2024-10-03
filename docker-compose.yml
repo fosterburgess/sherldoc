@@ -38,6 +38,14 @@ services:
             test: [ "CMD", "redis-cli", "ping" ]
         extra_hosts:
             - 'host.docker.internal:host-gateway'
+    tika:
+        image: apache/tika:2.9.2.1-full
+        ports:
+            - 9998:9998
+        networks:
+            - app-network
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
     supervisor:
         image: sherldoc/supervisor:1.0
         build:
