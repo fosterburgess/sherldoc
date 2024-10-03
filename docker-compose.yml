@@ -60,6 +60,21 @@ services:
             - app-network
         extra_hosts:
             - 'host.docker.internal:host-gateway'
+    pgsql:
+        image:
+            postgres:16.1-bullseye
+        ports:
+            - 5432:5432
+        volumes:
+            - './docker/pgdata161:/var/lib/postgresql/data'
+        networks:
+            - app-network
+        environment:
+            - POSTGRES_PASSWORD=sherldoc
+            - POSTGRES_USER=sherldoc
+            - POSTGRES_DB=sherldoc
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
 volumes:
     data.redis:
         driver: local
