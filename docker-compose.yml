@@ -73,8 +73,6 @@ services:
             - POSTGRES_PASSWORD=sherldoc
             - POSTGRES_USER=sherldoc
             - POSTGRES_DB=sherldoc
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
 volumes:
     data.redis:
         driver: local
