@@ -12,6 +12,7 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "pgvector/pgvector": "^0.2.0",
         "vaites/php-apache-tika": "^1.3"
     },
     "require-dev": {
