@@ -29,7 +29,7 @@ curl -X POST -F file=@resources/sample1.pdf \
 -F 'checks={"ensure_missing":
 ["perpetuity","prohibited", "free software"],
 "ensure_existing":
-["GNU", "license", "free software", "idaho"]}
+["GNU", "license", "idaho"]}
 ' http://localhost:8088/api/scan 
 ```
 
