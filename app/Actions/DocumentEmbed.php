@@ -19,6 +19,8 @@ class DocumentEmbed
         $embed = config('ollama.embed_model');
 
         $newChunks = [];
+
+        $document->chunks->map(fn ($chunk) => $chunk->delete());
         foreach ($chunks as $position => $chunk) {
             $embeddings = Http::withHeaders([
                 'Content-Type' => 'application/json',
