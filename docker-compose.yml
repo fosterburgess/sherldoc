@@ -15,7 +15,7 @@ services:
     app:
         image: sherldoc/web:1.0
         ports:
-            - "5173:5173"
+            - "5175:5173"
         build:
             context: ./docker/app/php
             dockerfile: php.dockerfile
