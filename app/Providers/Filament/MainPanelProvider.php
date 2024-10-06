@@ -27,8 +27,8 @@ class MainPanelProvider extends PanelProvider
             ->default()
             ->id('main')
             ->path('main')
-            ->login()
-            ->registration()
+//            ->login(null)
+//            ->registration()
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -44,7 +44,7 @@ class MainPanelProvider extends PanelProvider
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
-                AuthenticateSession::class,
+//                AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
@@ -52,14 +52,14 @@ class MainPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                BreezyCore::make()
-                ->myProfile()
-                    ->enableSanctumTokens(
-                        permissions: ['document-scan'] // optional, customize the permissions (default = ["create", "view", "update", "delete"])
-                    )
+//                BreezyCore::make()
+//                ->myProfile()
+//                    ->enableSanctumTokens(
+//                        permissions: ['document-scan'] // optional, customize the permissions (default = ["create", "view", "update", "delete"])
+//                    )
             ])
             ->authMiddleware([
-                Authenticate::class,
+//                Authenticate::class,
             ]);
     }
 }
