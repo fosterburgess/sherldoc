@@ -9,18 +9,30 @@
                 wire:model="question"
                 placeholder="Ask me a question..."
         />
+{{--        <button wire:click='sendQuestion'>Submit</button>--}}
     </x-filament::input.wrapper>
     </form>
 
     <hr/>
 
-    You asked {{$question}}
-    <hr/>
-    @if($results)
-    @foreach($results as $result)
-        <pre>{{$result}}</pre>
-        <hr/>
+
+    @if($conversation)
+    @foreach($conversation as $result)
+        <p class="from{{$result['from']}}">
+        {{$result['response']}}
+        </p>
 
     @endforeach
     @endif
+    <Style>
+        .fromagent {
+            text-align:left;
+            float:left;
+        }
+        .fromuser {
+            text-align:right;
+            float:right;
+        }
+    </Style>
+
 </div>
