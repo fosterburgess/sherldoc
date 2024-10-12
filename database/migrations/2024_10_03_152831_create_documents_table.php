@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
-            $table->string('name');
+            $table->string('title');
+            $table->string('name')->nullable();
             $table->string('path')->nullable();
             $table->string('disk')->nullable();
             $table->integer('size')->nullable();

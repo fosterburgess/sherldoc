@@ -26,7 +26,7 @@ class DocumentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\FileUpload::make('document')
-                    ->visible(fn($record) => !$record->id)
+                    ->visible(fn($record) => !$record?->id)
                     ->maxSize(125 * 1024 * 1024)
                     ->storeFileNamesIn('original_name')
                     ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
@@ -45,7 +45,7 @@ class DocumentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('title'),
             ])
             ->filters([
                 //
