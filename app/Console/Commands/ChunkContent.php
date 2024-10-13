@@ -26,20 +26,16 @@ class ChunkContent extends Command
     /**
      * Execute the console command.
      */
-    public function handle(string $content, string $title = null): Document
+    public function handle(Document $document, $content, int $chunkSize = 150): Document
     {
-        $document = new Document();
-        $document->title = $title;
-        $document->contents = $content;
-        $document->extracted_at = now();
-        $document->save();
-        $chunks = (new ChunkText)($content);
+        $chunks = (new ChunkText)($content, $chunkSize);
         foreach ($chunks as $chunkSection => $chunk) {
             $page_number = 1;
             Chunk::create(
                 [
                     'section_number' => $chunkSection,
                     'content' => $chunk,
+                    'chunk_size' => $chunkSize,
                     'document_id' => $document->id,
                     'sort_order' => $page_number,
                 ]);

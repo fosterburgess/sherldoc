@@ -10,17 +10,18 @@ use Illuminate\Support\Str;
 
 class DocumentEmbed
 {
-    public function __invoke(Document $document): array
+    public function __invoke(Document $document, int $chunkWordSize = 150): array
     {
-        // assume we have 'content' on document already
-        $chunkAction = app(ChunkText::class);
-        $chunks = $chunkAction($document->contents, 40);
         $url = config('ollama.url')."/api/embeddings";
         $embed = config('ollama.embed_model');
 
+        // assume we have 'contents' on document already
+        $chunkAction = app(ChunkText::class);
+        $chunks = $chunkAction($document->contents, $chunkWordSize);
+
         $newChunks = [];
 
-        $document->chunks->map(fn ($chunk) => $chunk->delete());
+        $document->chunks->filter(fn ($chunk) => $chunk->chunk_size === $chunkWordSize)->map(fn ($chunk) => $chunk->delete());
         foreach ($chunks as $position => $chunk) {
             $embeddings = Http::withHeaders([
                 'Content-Type' => 'application/json',
@@ -37,6 +38,7 @@ class DocumentEmbed
                     'content' => $chunk,
                     'document_id' => $document->id,
                     'sort_order' => $position,
+                    'chunk_size' => $chunkWordSize,
                     'embedding_768' => $embedding,
                 ]
             );

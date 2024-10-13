@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 class ChunkText
 {
-    public function __invoke(string $text, int $words = 50): array
+    public function __invoke(string $text, int $words = 150): array
     {
         $chunks = [];
 

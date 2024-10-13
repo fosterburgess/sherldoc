@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Actions\CreateSummaryOfDocumentChunks;
 use App\Actions\DocumentEmbed;
 use App\Actions\ExtractTextFromDocument;
 use App\Actions\SummarizeDocContents;
@@ -31,7 +32,7 @@ class DocumentResource extends Resource
                     ->storeFileNamesIn('original_name')
                     ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
 
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->columnSpanFull()
                     ->readOnly(),
                 Textarea::make('summary')
@@ -63,7 +64,7 @@ class DocumentResource extends Resource
                 Tables\Actions\Action::make('summarize')
                     ->label('Summarize')
                     ->icon('heroicon-o-document-text')
-                    ->action(fn ($record) =>app(SummarizeDocContents::class)($record)),
+                    ->action(fn ($record) =>app(CreateSummaryOfDocumentChunks::class)($record)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

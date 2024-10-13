@@ -19,6 +19,7 @@ class QueryDocuments
             ->select('chunks.id','chunks.content','chunks.sort_order', 'documents.name')
             ->join('documents', 'chunks.document_id', '=', 'documents.id')
             ->orderBy('chunks.sort_order')
+            ->where('chunks.chunk_size', 800)
             ->nearestNeighbors('embedding_768', $embed, Distance::Cosine)
             ->limit(2)
             ->get();

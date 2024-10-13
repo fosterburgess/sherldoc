@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('chunks', function (Blueprint $table) {
             $table->id();
             $table->string('sort_order')->default(1);
+            $table->integer('chunk_size')->nullable();
             $table->longText('content')->nullable();
             $table->longText('summary')->nullable();
             $table->vector('embedding_768', 768)->nullable();
