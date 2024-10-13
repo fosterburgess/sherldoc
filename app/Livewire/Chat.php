@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Actions\AskWithPromptInfo;
 use App\Actions\QueryDocuments;
 use App\Events\MessageEvent;
 use Illuminate\Support\Collection;
@@ -23,9 +24,14 @@ class Chat extends Component
         $action = app(QueryDocuments::class);
         $results = $action($this->question);
         $this->conversation[] = ['from'=>'user','response'=>$this->question];
-        foreach($results as $result) {
-            $this->conversation[] = ['from'=>'agent','response'=>$this->formatChunk($result)];
-        }
+        $topResult = $results[0];
+        $ask = app(AskWithPromptInfo::class)($this->question, $topResult['content']);
+        $this->conversation[] = ['from'=>'agent','response'=>$ask];
+//        foreach($results as $result) {
+//            $this->conversation[] = ['from'=>'agent','response'=>$this->formatChunk($result)];
+//        }
+
+
 
         $this->question = '';
     }

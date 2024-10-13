@@ -18,9 +18,10 @@
 
     @if($conversation)
     @foreach($conversation as $result)
-        <p class="from{{$result['from']}}">
+        <p class="clear-both mb-4 from{{$result['from']}}">
         {{$result['response']}}
         </p>
+        <hr/>
 
     @endforeach
     @endif
